@@ -1,11 +1,13 @@
 package com.themoment.everygsm.domain.project.entity;
 
 import com.themoment.everygsm.domain.project.enums.Category;
+import com.themoment.everygsm.global.annotation.Enum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -19,7 +21,7 @@ public class Project {
 
     @Id
     @Column(name = "project_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long projectId;
 
     @Column(name = "project_name")
@@ -53,9 +55,26 @@ public class Project {
 
     @Enumerated(EnumType.STRING)
     @ElementCollection(fetch = FetchType.LAZY)
-    @CollectionTable(name = "categories", joinColumns = @JoinColumn(name = "project_id"))
-    private List<Category> categories;
+    @Enum(enumClass = Category.class, ignoreCase = true)
+    @CollectionTable(name = "category", joinColumns = @JoinColumn(name = "project_id"))
+    private List<Category> category;
 
-    @Column(name = "created_at")
+    @CreatedDate
+    @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
+
+    public void update(String projectName, String projectDescription, String projectUrl, String projectLogoUri,
+                       List<String> projectGithubUrl, String createrName, String createrDescription, String createrLogoUri,
+                       String createrGithubUrl, List<Category> category) {
+        this.projectName = projectName;
+        this.projectDescription = projectDescription;
+        this.projectUrl = projectUrl;
+        this.projectLogoUri = projectLogoUri;
+        this.projectGithubUrl = projectGithubUrl;
+        this.createrName = createrName;
+        this.createrDescription = createrDescription;
+        this.createrLogoUri = createrLogoUri;
+        this.createrGithubUrl = createrGithubUrl;
+        this.category = category;
+    }
 }
