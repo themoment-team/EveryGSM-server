@@ -23,7 +23,7 @@ public class ProjectController {
     @PostMapping("/register")
     public ResponseEntity<Void> register(@RequestBody ProjectRegisterDto registerDto) {
         projectService.registerProject(registerDto);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @GetMapping("/all")
