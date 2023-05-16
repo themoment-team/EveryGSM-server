@@ -22,6 +22,5 @@ public class ProjectRegisterDto {
     private String createrDescription;
     private String createrLogoUri;
     private String createrGithubUrl;
-    @Enum(enumClass = Category.class, ignoreCase = true)
     private List<Category> category;
 }

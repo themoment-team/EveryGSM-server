@@ -46,7 +46,7 @@ public class ProjectController {
     }
 
     @GetMapping("/category/{category}")
-    public ResponseEntity<List<ProjectResponseDto>> getProjectsByCategory(@Valid @PathVariable @Enum(enumClass = Category.class, ignoreCase = true) Category category) {
+    public ResponseEntity<List<ProjectResponseDto>> getProjectsByCategory(@Valid @PathVariable Category category) {
         return new ResponseEntity<>(projectService.getProjectsByCategory(category), HttpStatus.OK);
     }
 }

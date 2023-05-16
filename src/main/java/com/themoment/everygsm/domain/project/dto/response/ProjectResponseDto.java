@@ -27,7 +27,6 @@ public class ProjectResponseDto {
     private String createrDescription;
     private String createrLogoUri;
     private String createrGithubUrl;
-    @Enum(enumClass = Category.class, ignoreCase = true)
     private List<Category> category;
     private LocalDateTime createdAt;
 
@@ -38,12 +37,12 @@ public class ProjectResponseDto {
                 .projectDescription(project.getProjectDescription())
                 .projectUrl(project.getProjectUrl())
                 .projectLogoUri(project.getProjectLogoUri())
-                .projectGithubUrl(project.getProjectGithubUrl())
+                .projectGithubUrl(project.getProjectGithubUrl().stream().toList())
                 .createrName(project.getCreaterName())
                 .createrDescription(project.getCreaterDescription())
                 .createrLogoUri(project.getCreaterLogoUri())
                 .createrGithubUrl(project.getCreaterGithubUrl())
-                .category(project.getCategory())
+                .category(project.getCategory().stream().toList())
                 .createdAt(project.getCreatedAt())
                 .build();
     }

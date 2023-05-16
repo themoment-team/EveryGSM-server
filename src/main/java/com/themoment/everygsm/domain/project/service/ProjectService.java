@@ -42,6 +42,7 @@ public class ProjectService {
         projectRepository.save(project);
     }
 
+    @Transactional
     public List<ProjectResponseDto> getAllProjects() {
 
         List<Project> projectList = projectRepository.findAll();
@@ -80,6 +81,7 @@ public class ProjectService {
         projectRepository.save(project);
     }
 
+    @Transactional
     public List<ProjectResponseDto> getProjectsByCategory(Category category) {
 
             List<Project> projectList = projectRepository.findAllByCategory(category);

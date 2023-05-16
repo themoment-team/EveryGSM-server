@@ -55,7 +55,6 @@ public class Project {
 
     @Enumerated(EnumType.STRING)
     @ElementCollection(fetch = FetchType.LAZY)
-    @Enum(enumClass = Category.class, ignoreCase = true)
     @CollectionTable(name = "category", joinColumns = @JoinColumn(name = "project_id"))
     private List<Category> category;
 
