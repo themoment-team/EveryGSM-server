@@ -6,7 +6,6 @@ import com.themoment.everygsm.domain.project.dto.response.ProjectResponseDto;
 import com.themoment.everygsm.domain.project.entity.Project;
 import com.themoment.everygsm.domain.project.enums.Category;
 import com.themoment.everygsm.domain.project.repository.ProjectRepository;
-import com.themoment.everygsm.global.annotation.Enum;
 import com.themoment.everygsm.global.exception.CustomException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

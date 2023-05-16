@@ -1,7 +1,6 @@
 package com.themoment.everygsm.domain.project.dto.request;
 
 import com.themoment.everygsm.domain.project.enums.Category;
-import com.themoment.everygsm.global.annotation.Enum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

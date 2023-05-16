@@ -1,7 +1,6 @@
 package com.themoment.everygsm.domain.project.entity;
 
 import com.themoment.everygsm.domain.project.enums.Category;
-import com.themoment.everygsm.global.annotation.Enum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
