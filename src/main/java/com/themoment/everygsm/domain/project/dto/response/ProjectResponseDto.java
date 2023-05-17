@@ -1,5 +1,7 @@
 package com.themoment.everygsm.domain.project.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.themoment.everygsm.domain.project.entity.Creator;
 import com.themoment.everygsm.domain.project.entity.Project;
 import com.themoment.everygsm.domain.project.enums.Category;
 import lombok.AllArgsConstructor;
@@ -22,14 +24,15 @@ public class ProjectResponseDto {
     private String projectUrl;
     private String projectLogoUri;
     private List<String> projectGithubUrl;
-    private String createrName;
-    private String createrDescription;
-    private String createrLogoUri;
-    private String createrGithubUrl;
+    private String creatorName;
+    private String creatorDescription;
+    private String creatorLogoUri;
+    private String creatorGithubUrl;
     private List<Category> category;
     private LocalDateTime createdAt;
 
     public static ProjectResponseDto from(Project project) {
+
         return ProjectResponseDto.builder()
                 .projectId(project.getProjectId())
                 .projectName(project.getProjectName())
@@ -37,10 +40,10 @@ public class ProjectResponseDto {
                 .projectUrl(project.getProjectUrl())
                 .projectLogoUri(project.getProjectLogoUri())
                 .projectGithubUrl(project.getProjectGithubUrl().stream().toList())
-                .createrName(project.getCreaterName())
-                .createrDescription(project.getCreaterDescription())
-                .createrLogoUri(project.getCreaterLogoUri())
-                .createrGithubUrl(project.getCreaterGithubUrl())
+                .creatorName(project.getProjectName())
+                .creatorDescription(project.getProjectDescription())
+                .creatorLogoUri(project.getProjectLogoUri())
+                .creatorGithubUrl(project.getProjectUrl())
                 .category(project.getCategory().stream().toList())
                 .createdAt(project.getCreatedAt())
                 .build();

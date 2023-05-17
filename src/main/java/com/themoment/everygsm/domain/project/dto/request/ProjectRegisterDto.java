@@ -17,9 +17,9 @@ public class ProjectRegisterDto {
     private String projectUrl;
     private String projectLogoUri;
     private List<String> projectGithubUrl;
-    private String createrName;
-    private String createrDescription;
-    private String createrLogoUri;
-    private String createrGithubUrl;
+    private String creatorName;
+    private String creatorDescription;
+    private String creatorLogoUri;
+    private String creatorGithubUrl;
     private List<Category> category;
 }

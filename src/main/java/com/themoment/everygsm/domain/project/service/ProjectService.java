@@ -3,6 +3,7 @@ package com.themoment.everygsm.domain.project.service;
 import com.themoment.everygsm.domain.project.dto.request.ProjectModifyDto;
 import com.themoment.everygsm.domain.project.dto.request.ProjectRegisterDto;
 import com.themoment.everygsm.domain.project.dto.response.ProjectResponseDto;
+import com.themoment.everygsm.domain.project.entity.Creator;
 import com.themoment.everygsm.domain.project.entity.Project;
 import com.themoment.everygsm.domain.project.enums.Category;
 import com.themoment.everygsm.domain.project.repository.ProjectRepository;
@@ -21,7 +22,7 @@ public class ProjectService {
 
     private final ProjectRepository projectRepository;
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void registerProject(ProjectRegisterDto registerDto) {
 
         Project project = Project.builder()
@@ -30,13 +31,19 @@ public class ProjectService {
                 .projectUrl(registerDto.getProjectUrl())
                 .projectLogoUri(registerDto.getProjectLogoUri())
                 .projectGithubUrl(registerDto.getProjectGithubUrl())
-                .createrName(registerDto.getCreaterName())
-                .createrDescription(registerDto.getCreaterDescription())
-                .createrLogoUri(registerDto.getCreaterLogoUri())
-                .createrGithubUrl(registerDto.getCreaterGithubUrl())
                 .category(registerDto.getCategory())
                 .createdAt(LocalDateTime.now())
                 .build();
+
+        Creator creator = Creator.builder()
+                .creatorName(registerDto.getCreatorName())
+                .creatorDescription(registerDto.getCreatorDescription())
+                .creatorLogoUri(registerDto.getCreatorLogoUri())
+                .creatorGithubUrl(registerDto.getCreatorGithubUrl())
+                .project(project)
+                .build();
+
+        project.setCreator(creator);
 
         projectRepository.save(project);
     }
@@ -46,7 +53,9 @@ public class ProjectService {
 
         List<Project> projectList = projectRepository.findAll();
 
-        return projectList.stream().map(ProjectResponseDto::from).toList();
+        return projectList.stream()
+                .map(ProjectResponseDto::from)
+                .toList();
     }
 
     @Transactional
@@ -70,11 +79,11 @@ public class ProjectService {
                 requestDto.getProjectUrl(),
                 requestDto.getProjectLogoUri(),
                 requestDto.getProjectGithubUrl(),
-                requestDto.getCreaterName(),
-                requestDto.getCreaterDescription(),
-                requestDto.getCreaterLogoUri(),
-                requestDto.getCreaterGithubUrl(),
-                requestDto.getCategory()
+                requestDto.getCategory(),
+                requestDto.getCreatorName(),
+                requestDto.getCreatorDescription(),
+                requestDto.getCreatorLogoUri(),
+                requestDto.getCreatorGithubUrl()
         );
 
         projectRepository.save(project);
