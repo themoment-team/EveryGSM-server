@@ -1,7 +1,7 @@
 package com.themoment.everygsm.domain.user.entity;
 
-import jakarta.persistence.Id;
 import lombok.*;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 import org.springframework.data.redis.core.TimeToLive;
 import org.springframework.data.redis.core.index.Indexed;
@@ -13,6 +13,7 @@ import org.springframework.data.redis.core.index.Indexed;
 @AllArgsConstructor
 @RedisHash("refreshToken")
 public class RefreshToken {
+
     @Id
     private String userEmail;
 
