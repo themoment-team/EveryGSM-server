@@ -26,12 +26,14 @@ public class User {
     @Column(name = "user_email")
     private String userEmail;
 
-    @Column(name = "user_pwd")
+    @Column(name = "user_pwd", length = 500)
     private String userPwd;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "user_belong")
     private Belong userBelong;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "user_role")
     private Role userRole;
 }
