@@ -2,11 +2,17 @@ package com.themoment.everygsm.domain.user.entity;
 
 import com.themoment.everygsm.domain.user.enums.Belong;
 import com.themoment.everygsm.domain.user.enums.Role;
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@Getter
+@Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
 
     @Id
