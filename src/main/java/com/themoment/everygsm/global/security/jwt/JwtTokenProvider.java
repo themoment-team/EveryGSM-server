@@ -130,9 +130,9 @@ public class JwtTokenProvider {
                     .parseClaimsJws(token)
                     .getBody();
         } catch (ExpiredJwtException e) {
-            throw new CustomException("만료된 토큰 입니다", HttpStatus.BAD_REQUEST);
+            throw new CustomException("만료된 토큰 입니다.", HttpStatus.BAD_REQUEST);
         } catch (JwtException e) {
-            throw new CustomException("토큰이 유효하지 않습니다", HttpStatus.BAD_REQUEST);
+            throw new CustomException("토큰이 유효하지 않습니다.", HttpStatus.BAD_REQUEST);
         }
     }
 

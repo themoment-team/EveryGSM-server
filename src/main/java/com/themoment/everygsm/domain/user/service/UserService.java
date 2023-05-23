@@ -40,7 +40,7 @@ public class UserService {
     @Transactional(rollbackFor = Exception.class)
     public void signUp(SignUpRequestDto signUpRequestDto) {
         if(userRepository.existsByUserEmail(signUpRequestDto.getUserEmail())) {
-            throw new CustomException("이미 사용하고 있는 이메일 입니다", HttpStatus.CONFLICT);
+            throw new CustomException("이미 사용하고 있는 이메일입니다.", HttpStatus.CONFLICT);
         }
 
         User user = User.builder()
@@ -56,10 +56,10 @@ public class UserService {
     @Transactional(rollbackFor = Exception.class)
     public SignInResponseDto signIn(SignInRequestDto signInRequestDto) {
         User user = userRepository.findUserByUserEmail(signInRequestDto.getUserEmail())
-                .orElseThrow(() -> new CustomException("사용자 이메일을 찾지 못했습니다", HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new CustomException("사용자 이메일을 찾지 못했습니다.", HttpStatus.NOT_FOUND));
 
         if(!passwordEncoder.matches(signInRequestDto.getUserPwd(), user.getUserPwd())) {
-            throw new CustomException("비밀번호가 틀렸습니다", HttpStatus.BAD_REQUEST);
+            throw new CustomException("비밀번호가 틀렸습니다.", HttpStatus.BAD_REQUEST);
         }
 
         String accessToken = jwtTokenProvider.generatedAccessToken(signInRequestDto.getUserEmail());
@@ -79,14 +79,14 @@ public class UserService {
     public void logout(String accessToken) {
         User user = userUtil.currentUser();
         RefreshToken refreshToken = refreshTokenRepository.findById(user.getUserEmail())
-                .orElseThrow(() -> new CustomException("리프레시 토큰을 찾을수 없습니다", HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new CustomException("리프레시 토큰을 찾을 수 없습니다.", HttpStatus.NOT_FOUND));
         refreshTokenRepository.delete(refreshToken);
         saveBlackList(accessToken, user.getUserEmail());
     }
 
     private void saveBlackList(String accessToken, String userEmail) {
         if (redisTemplate.opsForValue().get(accessToken) != null) {
-            throw new CustomException("블랙리스트에 이미 존재합니다", HttpStatus.CONFLICT);
+                throw new CustomException("블랙리스트에 이미 존재합니다.", HttpStatus.CONFLICT);
         }
 
         BlackList blackList = BlackList.builder()
@@ -101,10 +101,10 @@ public class UserService {
         log.info(refreshToken);
         String email = jwtTokenProvider.getUserEmail(refreshToken, jwtTokenProvider.getRefreshSecret());
         RefreshToken token = refreshTokenRepository.findById(email)
-                .orElseThrow(() -> new CustomException("리프레시 토큰을 찾을수 없습니다", HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new CustomException("리프레시 토큰을 찾을 수 없습니다.", HttpStatus.NOT_FOUND));
 
         if(!token.getToken().equals(refreshToken)) {
-            throw new CustomException("토큰이 유효하지 않습니다", HttpStatus.BAD_REQUEST);
+            throw new CustomException("토큰이 유효하지 않습니다.", HttpStatus.BAD_REQUEST);
         }
 
         String accessToken = jwtTokenProvider.generatedAccessToken(email);
