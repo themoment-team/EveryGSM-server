@@ -44,6 +44,12 @@ public class SecurityConfig {
                 .requestMatchers("/auth/signup").permitAll()
                 .requestMatchers("/auth/signin").permitAll()
                 .requestMatchers("/auth/**").permitAll()
+
+                .requestMatchers("/project/all").permitAll()
+                .requestMatchers("/project/category/**").permitAll()
+                .requestMatchers("/project/{projectId}").authenticated()
+                .requestMatchers("/project/register").hasRole("USER")
+
                 .anyRequest().authenticated();
 
         httpSecurity
