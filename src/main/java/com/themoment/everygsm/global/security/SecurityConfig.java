@@ -43,7 +43,7 @@ public class SecurityConfig {
         httpSecurity.authorizeHttpRequests()
                 .requestMatchers("/auth/signup").permitAll()
                 .requestMatchers("/auth/signin").permitAll()
-                .requestMatchers("/auth/token/reissue").permitAll()
+                .requestMatchers("/auth/**").permitAll()
                 .anyRequest().authenticated();
 
         httpSecurity

@@ -101,6 +101,7 @@ public class UserService {
 
     @Transactional(rollbackFor = Exception.class)
     public NewTokenResponse tokenReIssue(String refreshToken) {
+        log.info(refreshToken);
         String email = jwtTokenProvider.getUserEmail(refreshToken, jwtTokenProvider.getRefreshSecret());
         RefreshToken token = refreshTokenRepository.findById(email)
                 .orElseThrow(() -> new CustomException("리프레시 토큰을 찾을수 없습니다", HttpStatus.NOT_FOUND));
@@ -113,6 +114,7 @@ public class UserService {
         String refToken = jwtTokenProvider.generatedRefreshToken(email);
         ZonedDateTime expiredAt = jwtTokenProvider.getExpiredAtToken();
         token.updateRefreshToken(refToken);
+        refreshTokenRepository.save(token);
 
         return NewTokenResponse.builder()
                 .accessToken(accessToken)
