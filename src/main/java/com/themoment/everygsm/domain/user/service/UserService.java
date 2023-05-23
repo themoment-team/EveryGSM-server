@@ -4,7 +4,6 @@ import com.themoment.everygsm.domain.user.dto.request.SignInRequestDto;
 import com.themoment.everygsm.domain.user.dto.request.SignUpRequestDto;
 import com.themoment.everygsm.domain.user.dto.response.NewTokenResponse;
 import com.themoment.everygsm.domain.user.dto.response.SignInResponseDto;
-import com.themoment.everygsm.domain.user.dto.response.TokenResponse;
 import com.themoment.everygsm.domain.user.entity.BlackList;
 import com.themoment.everygsm.domain.user.entity.RefreshToken;
 import com.themoment.everygsm.domain.user.entity.User;
@@ -15,10 +14,8 @@ import com.themoment.everygsm.domain.user.repository.UserRepository;
 import com.themoment.everygsm.global.exception.CustomException;
 import com.themoment.everygsm.global.security.jwt.JwtTokenProvider;
 import com.themoment.everygsm.global.util.UserUtil;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -62,7 +59,7 @@ public class UserService {
                 .orElseThrow(() -> new CustomException("사용자 이메일을 찾지 못했습니다", HttpStatus.NOT_FOUND));
 
         if(!passwordEncoder.matches(signInRequestDto.getUserPwd(), user.getUserPwd())) {
-            throw new CustomException("패스워드가 틀렸습니다", HttpStatus.BAD_REQUEST);
+            throw new CustomException("비밀번호가 틀렸습니다", HttpStatus.BAD_REQUEST);
         }
 
         String accessToken = jwtTokenProvider.generatedAccessToken(signInRequestDto.getUserEmail());
