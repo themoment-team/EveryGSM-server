@@ -7,7 +7,6 @@ import io.jsonwebtoken.security.Keys;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,7 +18,6 @@ import java.security.Key;
 import java.time.ZonedDateTime;
 import java.util.Date;
 
-@Slf4j
 @Getter
 @Component
 @RequiredArgsConstructor
@@ -44,9 +42,7 @@ public class JwtTokenProvider {
 
     public String getTokenType(String token, String secret) {
         Claims claims = extractAllClaims(token, secret);
-        log.info(extractAllClaims(token, secret).toString());
         if (claims != null) {
-            log.info(claims.get(TokenClaimName.TOKEN_TYPE.value, String.class));
             return claims.get(TokenClaimName.TOKEN_TYPE.value, String.class);
         } else {
             throw new CustomException("토큰이 유효하지 않습니다.", HttpStatus.BAD_REQUEST);

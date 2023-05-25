@@ -2,14 +2,10 @@ package com.themoment.everygsm.domain.user.controller;
 
 import com.themoment.everygsm.domain.user.dto.request.SignInRequestDto;
 import com.themoment.everygsm.domain.user.dto.request.SignUpRequestDto;
-import com.themoment.everygsm.domain.user.dto.response.NewTokenResponse;
-import com.themoment.everygsm.domain.user.dto.response.SignInResponseDto;
+import com.themoment.everygsm.domain.user.dto.response.TokenResponse;
 import com.themoment.everygsm.domain.user.service.UserService;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,9 +24,9 @@ public class UserController {
     }
 
     @PostMapping("/signin")
-    public ResponseEntity<SignInResponseDto> signIn(@RequestBody @Valid SignInRequestDto signInRequestDto) {
-        SignInResponseDto signInResponseDto = userService.signIn(signInRequestDto);
-        return new ResponseEntity<>(signInResponseDto, HttpStatus.OK);
+    public ResponseEntity<TokenResponse> signIn(@RequestBody @Valid SignInRequestDto signInRequestDto) {
+        TokenResponse tokenResponse = userService.signIn(signInRequestDto);
+        return new ResponseEntity<>(tokenResponse, HttpStatus.OK);
     }
 
     @DeleteMapping("/logout")
@@ -40,8 +36,8 @@ public class UserController {
     }
 
     @PatchMapping
-    public ResponseEntity<NewTokenResponse> reIssueToken(@RequestHeader("RefreshToken") String token) {
-        NewTokenResponse reIssueToken = userService.tokenReIssue(token);
+    public ResponseEntity<TokenResponse> reIssueToken(@RequestHeader("RefreshToken") String token) {
+        TokenResponse reIssueToken = userService.tokenReIssue(token);
         return new ResponseEntity<>(reIssueToken, HttpStatus.OK);
     }
 }

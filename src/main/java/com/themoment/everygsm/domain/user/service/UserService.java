@@ -2,8 +2,7 @@ package com.themoment.everygsm.domain.user.service;
 
 import com.themoment.everygsm.domain.user.dto.request.SignInRequestDto;
 import com.themoment.everygsm.domain.user.dto.request.SignUpRequestDto;
-import com.themoment.everygsm.domain.user.dto.response.NewTokenResponse;
-import com.themoment.everygsm.domain.user.dto.response.SignInResponseDto;
+import com.themoment.everygsm.domain.user.dto.response.TokenResponse;
 import com.themoment.everygsm.domain.user.entity.BlackList;
 import com.themoment.everygsm.domain.user.entity.RefreshToken;
 import com.themoment.everygsm.domain.user.entity.User;
@@ -15,7 +14,6 @@ import com.themoment.everygsm.global.exception.CustomException;
 import com.themoment.everygsm.global.security.jwt.JwtTokenProvider;
 import com.themoment.everygsm.global.util.UserUtil;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,7 +22,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.ZonedDateTime;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -54,7 +51,7 @@ public class UserService {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public SignInResponseDto signIn(SignInRequestDto signInRequestDto) {
+    public TokenResponse signIn(SignInRequestDto signInRequestDto) {
         User user = userRepository.findUserByUserEmail(signInRequestDto.getUserEmail())
                 .orElseThrow(() -> new CustomException("사용자 이메일을 찾지 못했습니다.", HttpStatus.NOT_FOUND));
 
@@ -68,7 +65,7 @@ public class UserService {
 
         refreshTokenRepository.save(entityRedis);
 
-        return SignInResponseDto.builder()
+        return TokenResponse.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .expiredAt(jwtTokenProvider.getExpiredAtToken())
@@ -97,8 +94,7 @@ public class UserService {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public NewTokenResponse tokenReIssue(String refreshToken) {
-        log.info(refreshToken);
+    public TokenResponse tokenReIssue(String refreshToken) {
         String email = jwtTokenProvider.getUserEmail(refreshToken, jwtTokenProvider.getRefreshSecret());
         RefreshToken token = refreshTokenRepository.findById(email)
                 .orElseThrow(() -> new CustomException("리프레시 토큰을 찾을 수 없습니다.", HttpStatus.NOT_FOUND));
@@ -113,7 +109,7 @@ public class UserService {
         token.updateRefreshToken(refToken);
         refreshTokenRepository.save(token);
 
-        return NewTokenResponse.builder()
+        return TokenResponse.builder()
                 .accessToken(accessToken)
                 .refreshToken(refToken)
                 .expiredAt(expiredAt)

@@ -12,7 +12,7 @@ import java.time.ZonedDateTime;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class NewTokenResponse {
+public class TokenResponse {
 
     private String accessToken;
     private String refreshToken;
