@@ -41,8 +41,6 @@ public class SecurityConfig {
                 .cors().disable();
 
         httpSecurity.authorizeHttpRequests()
-                .requestMatchers("/auth/signup").permitAll()
-                .requestMatchers("/auth/signin").permitAll()
                 .requestMatchers("/auth/**").permitAll()
 
                 .requestMatchers("/project/all").permitAll()

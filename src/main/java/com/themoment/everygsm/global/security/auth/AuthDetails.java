@@ -2,7 +2,6 @@ package com.themoment.everygsm.global.security.auth;
 
 import com.themoment.everygsm.domain.user.entity.User;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,7 +9,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
-@Slf4j
 @AllArgsConstructor
 public class AuthDetails implements UserDetails {
     private User user;
