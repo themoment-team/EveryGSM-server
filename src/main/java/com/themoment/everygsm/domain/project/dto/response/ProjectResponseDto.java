@@ -1,7 +1,5 @@
 package com.themoment.everygsm.domain.project.dto.response;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.themoment.everygsm.domain.project.entity.Creator;
 import com.themoment.everygsm.domain.project.entity.Project;
 import com.themoment.everygsm.domain.project.enums.Category;
 import lombok.AllArgsConstructor;
