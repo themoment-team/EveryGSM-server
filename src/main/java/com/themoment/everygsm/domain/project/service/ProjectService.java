@@ -32,6 +32,7 @@ public class ProjectService {
                 .projectLogoUri(registerDto.getProjectLogoUri())
                 .projectGithubUrl(registerDto.getProjectGithubUrl())
                 .category(registerDto.getCategory())
+                .heartCount(0)
                 .createdAt(LocalDateTime.now())
                 .build();
 
