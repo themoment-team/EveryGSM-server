@@ -52,13 +52,13 @@ public class ProjectController {
         return new ResponseEntity<>(projectService.getProjectsByCategory(category), HttpStatus.OK);
     }
 
-    @PostMapping("/heart/{projectId}")
+    @PostMapping("/{projectId}/heart")
     public ResponseEntity<Void> insertHeart(@PathVariable("projectId") Long projectId) {
         insertHeartService.execute(projectId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @DeleteMapping("/heart/{projectId}")
+    @DeleteMapping("/{projectId}/heart")
     public ResponseEntity<Void> deleteHeart(@PathVariable("projectId") Long projectId) {
         deleteHeartService.execute(projectId);
         return new ResponseEntity<>(HttpStatus.OK);
