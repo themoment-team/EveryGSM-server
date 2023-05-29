@@ -45,8 +45,10 @@ public class SecurityConfig {
 
                 .requestMatchers("/project/all").permitAll()
                 .requestMatchers("/project/category/**").permitAll()
+
+                .requestMatchers("/project/register").authenticated()
                 .requestMatchers("/project/{projectId}").authenticated()
-                .requestMatchers("/project/register").hasRole("USER")
+                .requestMatchers("/project/heart/**").authenticated()
 
                 .anyRequest().authenticated();
 

@@ -1,5 +1,7 @@
 package com.themoment.everygsm.domain.project.controller;
 
+import com.themoment.everygsm.domain.heart.service.DeleteHeartService;
+import com.themoment.everygsm.domain.heart.service.InsertHeartService;
 import com.themoment.everygsm.domain.project.dto.request.ProjectModifyDto;
 import com.themoment.everygsm.domain.project.dto.request.ProjectRegisterDto;
 import com.themoment.everygsm.domain.project.dto.response.ProjectResponseDto;
@@ -19,6 +21,8 @@ import java.util.List;
 public class ProjectController {
 
     private final ProjectService projectService;
+    private final InsertHeartService insertHeartService;
+    private final DeleteHeartService deleteHeartService;
 
     @PostMapping("/register")
     public ResponseEntity<Void> register(@RequestBody ProjectRegisterDto registerDto) {
@@ -46,5 +50,17 @@ public class ProjectController {
     @GetMapping("/category/{category}")
     public ResponseEntity<List<ProjectResponseDto>> getProjectsByCategory(@Valid @PathVariable Category category) {
         return new ResponseEntity<>(projectService.getProjectsByCategory(category), HttpStatus.OK);
+    }
+
+    @PostMapping("/heart/{projectId}")
+    public ResponseEntity<Void> insertHeart(@PathVariable("projectId") Long projectId) {
+        insertHeartService.execute(projectId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping("/heart/{projectId}")
+    public ResponseEntity<Void> deleteHeart(@PathVariable("projectId") Long projectId) {
+        deleteHeartService.execute(projectId);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

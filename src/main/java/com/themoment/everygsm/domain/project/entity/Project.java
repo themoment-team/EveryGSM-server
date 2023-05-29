@@ -3,6 +3,8 @@ package com.themoment.everygsm.domain.project.entity;
 import com.themoment.everygsm.domain.project.enums.Category;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DialectOverride;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
@@ -46,6 +48,10 @@ public class Project {
     @CollectionTable(name = "category", joinColumns = @JoinColumn(name = "project_id"))
     private List<Category> category;
 
+    @ColumnDefault("0")
+    @Column(name = "heart_count", nullable = false)
+    private Integer heartCount;
+
     @CreatedDate
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
@@ -60,5 +66,9 @@ public class Project {
         this.projectGithubUrl = projectGithubUrl;
         this.category = category;
         creator.update(creatorName, creatorDescription, creatorLogoUri, creatorGithubUrl);
+    }
+
+    public void updateHeart(Integer heartCount) {
+        this.heartCount = heartCount;
     }
 }
