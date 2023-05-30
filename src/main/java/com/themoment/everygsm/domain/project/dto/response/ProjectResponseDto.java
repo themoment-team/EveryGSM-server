@@ -27,6 +27,7 @@ public class ProjectResponseDto {
     private String creatorLogoUri;
     private String creatorGithubUrl;
     private List<Category> category;
+    private Integer heartCount;
     private LocalDateTime createdAt;
 
     public static ProjectResponseDto from(Project project) {
@@ -43,6 +44,7 @@ public class ProjectResponseDto {
                 .creatorLogoUri(project.getProjectLogoUri())
                 .creatorGithubUrl(project.getProjectUrl())
                 .category(project.getCategory().stream().toList())
+                .heartCount(project.getHeartCount())
                 .createdAt(project.getCreatedAt())
                 .build();
     }

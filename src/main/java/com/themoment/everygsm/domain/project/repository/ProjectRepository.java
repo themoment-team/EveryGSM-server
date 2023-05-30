@@ -9,4 +9,8 @@ import java.util.List;
 public interface ProjectRepository extends JpaRepository<Project, Long> {
 
     List<Project> findAllByCategory(Category category);
+    List<Project> findAllByOrderByCreatedAtDesc();
+    List<Project> findAllByOrderByHeartCountDesc();
+    List<Project> findAllByOrderByCreatedAtAsc();
+    List<Project> findAllByOrderByHeartCountAsc();
 }
