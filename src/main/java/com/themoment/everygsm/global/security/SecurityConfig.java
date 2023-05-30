@@ -48,7 +48,7 @@ public class SecurityConfig {
 
                 .requestMatchers("/project/register").authenticated()
                 .requestMatchers("/project/{projectId}").authenticated()
-                .requestMatchers("/project/heart/**").authenticated()
+                .requestMatchers("/project/{projectId}/heart").authenticated()
 
                 .anyRequest().authenticated();
 
