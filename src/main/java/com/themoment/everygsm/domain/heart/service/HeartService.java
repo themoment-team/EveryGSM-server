@@ -14,14 +14,35 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class DeleteHeartService {
+public class HeartService {
 
     private final UserUtil userUtil;
     private final ProjectRepository projectRepository;
     private final HeartRepository heartRepository;
 
     @Transactional(rollbackFor = Exception.class)
-    public void execute(Long projectId) {
+    public void insertHeart(Long projectId) {
+        User user = userUtil.currentUser();
+
+        Project project = projectRepository.findById(projectId)
+                .orElseThrow(() -> new CustomException("존재하지 않는 게시글 입니다.", HttpStatus.NOT_FOUND));
+
+        if (heartRepository.existsHeartByUserAndProject(user, project)){
+            throw new CustomException("이미 좋아요를 누른 프로젝트 입니다.", HttpStatus.BAD_REQUEST);
+        }
+
+        Heart heart = Heart.builder()
+                .user(user)
+                .project(project)
+                .build();
+
+        project.updateHeart(project.getHeartCount() + 1);
+        heartRepository.save(heart);
+        projectRepository.save(project);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public void deleteHeart(Long projectId) {
         User user = userUtil.currentUser();
 
         Project project = projectRepository.findById(projectId)
