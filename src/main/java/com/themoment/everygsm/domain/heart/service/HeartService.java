@@ -38,7 +38,6 @@ public class HeartService {
 
         project.updateHeart(project.getHeartCount() + 1);
         heartRepository.save(heart);
-        projectRepository.save(project);
     }
 
     @Transactional(rollbackFor = Exception.class)
@@ -53,7 +52,6 @@ public class HeartService {
         }
 
         project.updateHeart(project.getHeartCount() - 1);
-        projectRepository.save(project);
         heartRepository.deleteHeartByUserAndProject(user, project);
     }
 }
