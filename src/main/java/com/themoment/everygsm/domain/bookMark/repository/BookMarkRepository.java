@@ -5,7 +5,6 @@ import com.themoment.everygsm.domain.project.entity.Project;
 import com.themoment.everygsm.domain.user.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.awt.print.Book;
 import java.util.List;
 
 public interface BookMarkRepository extends JpaRepository<BookMark, Long> {

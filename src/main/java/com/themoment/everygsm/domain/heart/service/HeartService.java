@@ -25,7 +25,7 @@ public class HeartService {
         User user = userUtil.currentUser();
 
         Project project = projectRepository.findById(projectId)
-                .orElseThrow(() -> new CustomException("존재하지 않는 게시글 입니다.", HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new CustomException("좋아요 누를 프로젝를 찾지 못했습니다.", HttpStatus.NOT_FOUND));
 
         if (heartRepository.existsHeartByUserAndProject(user, project)){
             throw new CustomException("이미 좋아요를 누른 프로젝트 입니다.", HttpStatus.BAD_REQUEST);
@@ -45,7 +45,7 @@ public class HeartService {
         User user = userUtil.currentUser();
 
         Project project = projectRepository.findById(projectId)
-                .orElseThrow(() -> new CustomException("존재하지 않는 게시글 입니다.", HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new CustomException("좋아요 누를 프로젝를 찾지 못했습니다.", HttpStatus.NOT_FOUND));
 
         if (!heartRepository.existsHeartByUserAndProject(user, project)){
             throw new CustomException("좋아요를 누르지 않은 프로젝트 입니다.", HttpStatus.BAD_REQUEST);

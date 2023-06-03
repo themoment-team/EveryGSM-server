@@ -1,7 +1,6 @@
 package com.themoment.everygsm.domain.project.controller;
 
 import com.themoment.everygsm.domain.project.dto.response.ProjectResponseDto;
-import com.themoment.everygsm.domain.project.entity.Project;
 import com.themoment.everygsm.domain.project.service.ProjectSortService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

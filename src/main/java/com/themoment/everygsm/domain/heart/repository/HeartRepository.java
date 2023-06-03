@@ -10,8 +10,5 @@ import java.util.List;
 public interface HeartRepository extends JpaRepository<Heart, Long> {
 
     void deleteHeartByUserAndProject(User user, Project project);
-    void deleteByProject(Project project);
-    void deleteByUser(User user);
-    List<Heart> findByUser(User user);
     boolean existsHeartByUserAndProject(User user, Project project);
 }

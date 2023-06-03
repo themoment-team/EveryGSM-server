@@ -1,6 +1,5 @@
 package com.themoment.everygsm.domain.user.controller;
 
-import com.themoment.everygsm.domain.bookMark.entity.BookMark;
 import com.themoment.everygsm.domain.project.dto.response.ProjectResponseDto;
 import com.themoment.everygsm.domain.user.dto.request.SignInRequestDto;
 import com.themoment.everygsm.domain.user.dto.request.SignUpRequestDto;
