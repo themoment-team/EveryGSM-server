@@ -27,6 +27,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -138,8 +140,8 @@ public class UserService {
     public List<ProjectResponseDto> getBookMarkProjects() {
         User user = userUtil.currentUser();
 
-        List<BookMark> bookMarks = bookMarkRepository.findAllByUser(user);
-
-        return ProjectResponseDto.convertToBookMarkList(bookMarks);
+        return bookMarkRepository.findAllByUser(user).stream()
+                .map((bookMark) -> ProjectResponseDto.from(bookMark.getProject()))
+                .toList();
     }
 }
