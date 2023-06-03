@@ -41,7 +41,9 @@ public class SecurityConfig {
                 .cors().disable();
 
         httpSecurity.authorizeHttpRequests()
-                .requestMatchers("/auth/**").permitAll()
+                .requestMatchers("/user/projects").authenticated()
+                .requestMatchers("/user/bookmark/projects").authenticated()
+                .requestMatchers("/user/**").permitAll()
 
                 .requestMatchers("/project/all").permitAll()
                 .requestMatchers("/project/category/**").permitAll()
@@ -50,6 +52,7 @@ public class SecurityConfig {
                 .requestMatchers("/project/register").authenticated()
                 .requestMatchers("/project/{projectId}").authenticated()
                 .requestMatchers("/project/{projectId}/heart").authenticated()
+                .requestMatchers("/project/{projectId}/bookmark").authenticated()
 
                 .anyRequest().authenticated();
 

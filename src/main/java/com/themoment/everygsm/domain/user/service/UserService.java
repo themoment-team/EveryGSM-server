@@ -1,5 +1,10 @@
 package com.themoment.everygsm.domain.user.service;
 
+import com.themoment.everygsm.domain.bookMark.entity.BookMark;
+import com.themoment.everygsm.domain.bookMark.repository.BookMarkRepository;
+import com.themoment.everygsm.domain.project.dto.response.ProjectResponseDto;
+import com.themoment.everygsm.domain.project.entity.Project;
+import com.themoment.everygsm.domain.project.repository.ProjectRepository;
 import com.themoment.everygsm.domain.user.dto.request.SignInRequestDto;
 import com.themoment.everygsm.domain.user.dto.request.SignUpRequestDto;
 import com.themoment.everygsm.domain.user.dto.response.TokenResponse;
@@ -21,6 +26,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.ZonedDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -33,6 +41,8 @@ public class UserService {
     private final RefreshTokenRepository refreshTokenRepository;
     private final UserUtil userUtil;
     private final BlackListRepository blackListRepository;
+    private final ProjectRepository projectRepository;
+    private final BookMarkRepository bookMarkRepository;
 
     @Transactional(rollbackFor = Exception.class)
     public void signUp(SignUpRequestDto signUpRequestDto) {
@@ -114,5 +124,24 @@ public class UserService {
                 .refreshToken(refToken)
                 .expiredAt(expiredAt)
                 .build();
+    }
+
+    @Transactional
+    public List<ProjectResponseDto> getMyProjects() {
+        User user = userUtil.currentUser();
+
+        List<Project> projectList = projectRepository.findAllByUser(user);
+        return projectList.stream()
+                .map(ProjectResponseDto::from)
+                .toList();
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public List<ProjectResponseDto> getBookMarkProjects() {
+        User user = userUtil.currentUser();
+
+        return bookMarkRepository.findAllByUser(user).stream()
+                .map((bookMark) -> ProjectResponseDto.from(bookMark.getProject()))
+                .toList();
     }
 }

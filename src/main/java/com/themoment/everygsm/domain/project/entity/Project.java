@@ -1,6 +1,7 @@
 package com.themoment.everygsm.domain.project.entity;
 
 import com.themoment.everygsm.domain.project.enums.Category;
+import com.themoment.everygsm.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -53,6 +54,10 @@ public class Project {
     @ColumnDefault("0")
     @Column(name = "heart_count", nullable = false)
     private Integer heartCount;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     @CreatedDate
     @Column(name = "created_at", updatable = false)

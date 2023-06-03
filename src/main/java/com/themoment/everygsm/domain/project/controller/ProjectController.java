@@ -1,5 +1,6 @@
 package com.themoment.everygsm.domain.project.controller;
 
+import com.themoment.everygsm.domain.bookMark.service.BookMarkService;
 import com.themoment.everygsm.domain.heart.service.HeartService;
 import com.themoment.everygsm.domain.project.dto.request.ProjectModifyDto;
 import com.themoment.everygsm.domain.project.dto.request.ProjectRegisterDto;
@@ -21,6 +22,7 @@ public class ProjectController {
 
     private final ProjectService projectService;
     private final HeartService heartService;
+    private final BookMarkService bookMarkService;
 
     @PostMapping("/register")
     public ResponseEntity<Void> register(@RequestBody ProjectRegisterDto registerDto) {
@@ -59,6 +61,18 @@ public class ProjectController {
     @DeleteMapping("/{projectId}/heart")
     public ResponseEntity<Void> deleteHeart(@PathVariable("projectId") Long projectId) {
         heartService.deleteHeart(projectId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/{projectId}/bookmark")
+    public ResponseEntity<Void> addBookMark(@PathVariable("projectId") Long projectId) {
+        bookMarkService.addBookMark(projectId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{projectId}/bookmark")
+    public ResponseEntity<Void> deleteBookMark(@PathVariable("projectId") Long projectId) {
+        bookMarkService.deleteBookMark(projectId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

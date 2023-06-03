@@ -7,7 +7,9 @@ import com.themoment.everygsm.domain.project.entity.Creator;
 import com.themoment.everygsm.domain.project.entity.Project;
 import com.themoment.everygsm.domain.project.enums.Category;
 import com.themoment.everygsm.domain.project.repository.ProjectRepository;
+import com.themoment.everygsm.domain.user.entity.User;
 import com.themoment.everygsm.global.exception.CustomException;
+import com.themoment.everygsm.global.util.UserUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -21,9 +23,11 @@ import java.util.List;
 public class ProjectService {
 
     private final ProjectRepository projectRepository;
+    private final UserUtil userUtil;
 
     @Transactional(rollbackFor = Exception.class)
     public void registerProject(ProjectRegisterDto registerDto) {
+        User user = userUtil.currentUser();
 
         Project project = Project.builder()
                 .projectName(registerDto.getProjectName())
@@ -33,6 +37,7 @@ public class ProjectService {
                 .projectGithubUrl(registerDto.getProjectGithubUrl())
                 .category(registerDto.getCategory())
                 .heartCount(0)
+                .user(user)
                 .createdAt(LocalDateTime.now())
                 .build();
 
