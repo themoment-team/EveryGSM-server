@@ -10,6 +10,7 @@ import java.util.List;
 @Component
 public class ProjectSearchUtil {
 
+    // 아래 메서드 수정해야함
     public List<Project> filterProjectsByKeywordAndCategories(List<Project> projects, String keyword, List<Category> categories) throws IllegalAccessException {
         List<Project> filteredProjects = new ArrayList<>();
 
