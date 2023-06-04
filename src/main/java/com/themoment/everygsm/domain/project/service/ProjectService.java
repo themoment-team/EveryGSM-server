@@ -102,7 +102,7 @@ public class ProjectService {
         List<Project> projectList = projectRepository.findAll();
 
         try {
-            List<Project> categoryProjects = projectSearchUtil.filterProjectsByKeyword(projectList, keyword);
+            List<Project> categoryProjects = projectSearchUtil.filterProjectsByKeywordAndCategories(projectList, keyword, categories);
 
             return categoryProjects.stream()
                     .map(ProjectResponseDto::from)
