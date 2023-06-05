@@ -55,6 +55,10 @@ public class Project {
     @Column(name = "heart_count", nullable = false)
     private Integer heartCount;
 
+    @ColumnDefault("0")
+    @Column(name = "visitor_count", nullable = false)
+    private Integer visitorCount;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
