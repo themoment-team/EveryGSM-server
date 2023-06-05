@@ -3,6 +3,7 @@ package com.themoment.everygsm.domain.user.entity;
 import com.themoment.everygsm.domain.user.enums.Belong;
 import com.themoment.everygsm.domain.user.enums.Role;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -24,6 +25,7 @@ public class User {
     private String userName;
 
     @Column(name = "user_email")
+    @Pattern(regexp = "^[A-Za-z0-9_\\.\\-]+@gsm.hs.kr")
     private String userEmail;
 
     @Column(name = "user_pwd", length = 500)
