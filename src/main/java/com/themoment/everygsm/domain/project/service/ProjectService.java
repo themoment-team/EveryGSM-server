@@ -6,6 +6,7 @@ import com.themoment.everygsm.domain.project.dto.response.ProjectResponseDto;
 import com.themoment.everygsm.domain.project.entity.Creator;
 import com.themoment.everygsm.domain.project.entity.Project;
 import com.themoment.everygsm.domain.project.enums.Category;
+import com.themoment.everygsm.domain.project.enums.Status;
 import com.themoment.everygsm.domain.project.repository.ProjectRepository;
 import com.themoment.everygsm.domain.user.entity.User;
 import com.themoment.everygsm.global.exception.CustomException;
@@ -36,6 +37,7 @@ public class ProjectService {
                 .projectLogoUri(registerDto.getProjectLogoUri())
                 .projectGithubUrl(registerDto.getProjectGithubUrl())
                 .category(registerDto.getCategory())
+                .status(Status.PENDING)
                 .heartCount(0)
                 .user(user)
                 .createdAt(LocalDateTime.now())
@@ -57,7 +59,7 @@ public class ProjectService {
     @Transactional
     public List<ProjectResponseDto> getAllProjects() {
 
-        List<Project> projectList = projectRepository.findAll();
+        List<Project> projectList = projectRepository.findByStatus(Status.APPROVED);
 
         return projectList.stream()
                 .map(ProjectResponseDto::from)
@@ -101,5 +103,13 @@ public class ProjectService {
             List<Project> projectList = projectRepository.findAllByCategory(category);
 
             return projectList.stream().map(ProjectResponseDto::from).toList();
+    }
+
+    @Transactional
+    public void approveProject(Long projectId) {
+        Project project = projectRepository.findById(projectId)
+                .orElseThrow(() -> new CustomException("프로젝트를 찾을 수 없습니다", HttpStatus.NOT_FOUND));
+
+        project.setStatus(Status.APPROVED);
     }
 }

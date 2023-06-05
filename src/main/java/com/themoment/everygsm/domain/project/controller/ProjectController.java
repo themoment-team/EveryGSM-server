@@ -75,4 +75,10 @@ public class ProjectController {
         bookMarkService.deleteBookMark(projectId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @PostMapping("/{projectId}/approve")
+    public ResponseEntity<Void> approveProject(@PathVariable("projectId") Long projectId) {
+        projectService.approveProject(projectId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
