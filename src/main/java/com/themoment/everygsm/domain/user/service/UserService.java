@@ -55,7 +55,7 @@ public class UserService {
                 .userPwd(passwordEncoder.encode(signUpRequestDto.getUserPwd()))
                 .userName(signUpRequestDto.getUserName())
                 .userBelong(signUpRequestDto.getUserBelong())
-                .userRole(Role.USER)
+                .userRole(Role.ROLE_USER)
                 .build();
         userRepository.save(user);
     }
