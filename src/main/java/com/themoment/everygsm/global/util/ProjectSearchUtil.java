@@ -2,40 +2,32 @@ package com.themoment.everygsm.global.util;
 
 import com.themoment.everygsm.domain.project.entity.Project;
 import com.themoment.everygsm.domain.project.enums.Category;
+import com.themoment.everygsm.global.exception.CustomException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class ProjectSearchUtil {
 
     // 아래 메서드 수정해야함
-    public List<Project> filterProjectsByKeywordAndCategories(List<Project> projects, String keyword, List<Category> categories) throws IllegalAccessException {
-        List<Project> filteredProjects = new ArrayList<>();
-
-        for (Project project : projects) {
-            if(categories == null && keyword != null) {
-                if (isKeywordPresentInEntity(project, keyword)) {
-                    filteredProjects.add(project);
-                }
-            }
-            else if(categories != null && keyword == null) {
-                if (isCategoriesPresentInEntity(project, categories)) {
-                    filteredProjects.add(project);
-                }
-            }
-            else {
-                if (categories != null && isCategoriesPresentInEntity(project, categories)) {
-                    if (isKeywordPresentInEntity(project, keyword)) {
-                        filteredProjects.add(project);
+    public List<Project> filterProjectsByKeywordAndCategories(List<Project> projects, String keyword, List<Category> categories) {
+        return projects.stream()
+                .filter(project -> {
+                    try {
+                        boolean isCategoryMatched = categories == null || isCategoriesPresentInEntity(project, categories);
+                        boolean isKeywordMatched = keyword == null || isKeywordPresentInEntity(project, keyword);
+                        return isCategoryMatched && isKeywordMatched;
+                    } catch (IllegalAccessException e) {
+                        throw new CustomException(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
                     }
-                }
-            }
-        }
-
-        return filteredProjects;
+                })
+                .collect(Collectors.toList());
     }
+
 
     private boolean isKeywordPresentInEntity(Project project, String keyword) throws IllegalAccessException {
         Class<?> entityClass = project.getClass();

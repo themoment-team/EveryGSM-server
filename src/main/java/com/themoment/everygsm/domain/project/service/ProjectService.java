@@ -101,14 +101,10 @@ public class ProjectService {
     public List<ProjectResponseDto> searchProjects(List<Category> categories, String keyword) {
         List<Project> projectList = projectRepository.findAll();
 
-        try {
             List<Project> categoryProjects = projectSearchUtil.filterProjectsByKeywordAndCategories(projectList, keyword, categories);
 
             return categoryProjects.stream()
                     .map(ProjectResponseDto::from)
                     .toList();
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-        }
     }
 }
