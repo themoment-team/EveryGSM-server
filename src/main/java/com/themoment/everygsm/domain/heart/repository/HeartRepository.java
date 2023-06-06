@@ -11,4 +11,5 @@ public interface HeartRepository extends JpaRepository<Heart, Long> {
 
     void deleteHeartByUserAndProject(User user, Project project);
     boolean existsHeartByUserAndProject(User user, Project project);
+    List<Heart> findByUser(User user);
 }
