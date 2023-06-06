@@ -76,6 +76,17 @@ public class ProjectController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PostMapping("/{projectId}/approve")
+    public ResponseEntity<Void> approveProject(@PathVariable("projectId") Long projectId) {
+        projectService.approveProject(projectId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/{projectId}/disapprove")
+    public ResponseEntity<Void> disapproveProject(@PathVariable("projectId") Long projectId) {
+        projectService.disapproveProject(projectId);
+    }
+  
     @PostMapping("/{projectId}/visit")
     public ResponseEntity<Void> updateVisitorCount(@PathVariable("projectId") Long projectId) {
         projectService.updateVisitorCount(projectId);

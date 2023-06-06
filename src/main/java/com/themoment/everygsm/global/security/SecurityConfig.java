@@ -55,6 +55,8 @@ public class SecurityConfig {
                 .requestMatchers("/project/{projectId}").authenticated()
                 .requestMatchers("/project/{projectId}/heart").authenticated()
                 .requestMatchers("/project/{projectId}/bookmark").authenticated()
+                .requestMatchers("/project/{projectId}/approve").hasRole("ADMIN")
+                .requestMatchers("/project/{projectId}/disapprove").hasRole("ADMIN")
 
                 .anyRequest().authenticated();
 

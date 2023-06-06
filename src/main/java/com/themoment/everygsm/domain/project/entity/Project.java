@@ -1,6 +1,7 @@
 package com.themoment.everygsm.domain.project.entity;
 
 import com.themoment.everygsm.domain.project.enums.Category;
+import com.themoment.everygsm.domain.project.enums.Status;
 import com.themoment.everygsm.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -64,6 +65,10 @@ public class Project {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "project_status")
+    private Status status;
+
     @CreatedDate
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
@@ -84,5 +89,7 @@ public class Project {
         this.heartCount = heartCount;
     }
 
+    public void updateStatus(Status status) { this.status = status; }
+  
     public void updateVisitor(Integer visitorCount) { this.visitorCount = visitorCount; }
 }

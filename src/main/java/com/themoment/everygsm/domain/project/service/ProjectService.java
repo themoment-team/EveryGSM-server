@@ -6,6 +6,7 @@ import com.themoment.everygsm.domain.project.dto.response.ProjectResponseDto;
 import com.themoment.everygsm.domain.project.entity.Creator;
 import com.themoment.everygsm.domain.project.entity.Project;
 import com.themoment.everygsm.domain.project.enums.Category;
+import com.themoment.everygsm.domain.project.enums.Status;
 import com.themoment.everygsm.domain.project.repository.ProjectRepository;
 import com.themoment.everygsm.domain.user.entity.User;
 import com.themoment.everygsm.global.exception.CustomException;
@@ -38,6 +39,7 @@ public class ProjectService {
                 .projectLogoUri(registerDto.getProjectLogoUri())
                 .projectGithubUrl(registerDto.getProjectGithubUrl())
                 .category(registerDto.getCategory())
+                .status(Status.PENDING)
                 .heartCount(0)
                 .visitorCount(0)
                 .user(user)
@@ -60,7 +62,7 @@ public class ProjectService {
     @Transactional
     public List<ProjectResponseDto> getAllProjects() {
 
-        List<Project> projectList = projectRepository.findAll();
+        List<Project> projectList = projectRepository.findByStatus(Status.APPROVED);
 
         return projectList.stream()
                 .map(ProjectResponseDto::from)
@@ -115,5 +117,21 @@ public class ProjectService {
                 .orElseThrow(() -> new CustomException("프로젝트를 찾지 못하였습니다.", HttpStatus.NOT_FOUND));
 
         project.updateVisitor(project.getVisitorCount() + 1);
+    }
+
+    @Transactional
+    public void approveProject(Long projectId) {
+        Project project = projectRepository.findById(projectId)
+                .orElseThrow(() -> new CustomException("프로젝트를 찾을 수 없습니다", HttpStatus.NOT_FOUND));
+
+        project.updateStatus(Status.APPROVED);
+    }
+
+    @Transactional
+    public void disapproveProject(Long projectId) {
+        Project project = projectRepository.findById(projectId)
+                .orElseThrow(() -> new CustomException("프로젝트를 찾을 수 없습니다", HttpStatus.NOT_FOUND));
+
+        projectRepository.delete(project);
     }
 }
