@@ -112,4 +112,12 @@ public class ProjectService {
 
         project.updateStatus(Status.APPROVED);
     }
+
+    @Transactional
+    public void disapproveProject(Long projectId) {
+        Project project = projectRepository.findById(projectId)
+                .orElseThrow(() -> new CustomException("프로젝트를 찾을 수 없습니다", HttpStatus.NOT_FOUND));
+
+        projectRepository.delete(project);
+    }
 }
