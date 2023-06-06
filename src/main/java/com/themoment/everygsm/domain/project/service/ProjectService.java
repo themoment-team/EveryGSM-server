@@ -109,6 +109,6 @@ public class ProjectService {
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(() -> new CustomException("프로젝트를 찾지 못하였습니다.", HttpStatus.NOT_FOUND));
 
-        project.setVisitorCount(project.getVisitorCount() + 1);
+        project.updateVisitor(project.getVisitorCount() + 1);
     }
 }
