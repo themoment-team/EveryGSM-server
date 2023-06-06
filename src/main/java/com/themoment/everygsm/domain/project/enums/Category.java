@@ -17,5 +17,6 @@ public enum Category {
     Flask,
     FastAPI,
     Angular,
-    Vue
+    Vue,
+    Go
 }

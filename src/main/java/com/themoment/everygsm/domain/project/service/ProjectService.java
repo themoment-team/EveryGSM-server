@@ -10,6 +10,7 @@ import com.themoment.everygsm.domain.project.enums.Status;
 import com.themoment.everygsm.domain.project.repository.ProjectRepository;
 import com.themoment.everygsm.domain.user.entity.User;
 import com.themoment.everygsm.global.exception.CustomException;
+import com.themoment.everygsm.global.util.ProjectSearchUtil;
 import com.themoment.everygsm.global.util.UserUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -25,6 +26,7 @@ public class ProjectService {
 
     private final ProjectRepository projectRepository;
     private final UserUtil userUtil;
+    private final ProjectSearchUtil projectSearchUtil;
 
     @Transactional(rollbackFor = Exception.class)
     public void registerProject(ProjectRegisterDto registerDto) {
@@ -39,6 +41,7 @@ public class ProjectService {
                 .category(registerDto.getCategory())
                 .status(Status.PENDING)
                 .heartCount(0)
+                .visitorCount(0)
                 .user(user)
                 .createdAt(LocalDateTime.now())
                 .build();
@@ -98,11 +101,22 @@ public class ProjectService {
     }
 
     @Transactional
-    public List<ProjectResponseDto> getProjectsByCategory(Category category) {
+    public List<ProjectResponseDto> searchProjects(List<Category> categories, String keyword) {
+        List<Project> projectList = projectRepository.findAll();
 
-            List<Project> projectList = projectRepository.findAllByCategory(category);
+            List<Project> categoryProjects = projectSearchUtil.filterProjectsByKeywordAndCategories(projectList, keyword, categories);
 
-            return projectList.stream().map(ProjectResponseDto::from).toList();
+            return categoryProjects.stream()
+                    .map(ProjectResponseDto::from)
+                    .toList();
+    }
+
+    @Transactional
+    public void updateVisitorCount(Long projectId) {
+        Project project = projectRepository.findById(projectId)
+                .orElseThrow(() -> new CustomException("프로젝트를 찾지 못하였습니다.", HttpStatus.NOT_FOUND));
+
+        project.updateVisitor(project.getVisitorCount() + 1);
     }
 
     @Transactional

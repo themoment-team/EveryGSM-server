@@ -47,9 +47,9 @@ public class ProjectController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/category/{category}")
-    public ResponseEntity<List<ProjectResponseDto>> getProjectsByCategory(@Valid @PathVariable Category category) {
-        return new ResponseEntity<>(projectService.getProjectsByCategory(category), HttpStatus.OK);
+    @GetMapping("/search")
+    public ResponseEntity<List<ProjectResponseDto>> searchProjects(@RequestParam(value = "category", required = false) List<Category> categories, @RequestParam(value = "keyword", required = false) String keyword) {
+        return new ResponseEntity<>(projectService.searchProjects(categories, keyword), HttpStatus.OK);
     }
 
     @PostMapping("/{projectId}/heart")
@@ -85,6 +85,11 @@ public class ProjectController {
     @PostMapping("/{projectId}/disapprove")
     public ResponseEntity<Void> disapproveProject(@PathVariable("projectId") Long projectId) {
         projectService.disapproveProject(projectId);
+    }
+  
+    @PostMapping("/{projectId}/visit")
+    public ResponseEntity<Void> updateVisitorCount(@PathVariable("projectId") Long projectId) {
+        projectService.updateVisitorCount(projectId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

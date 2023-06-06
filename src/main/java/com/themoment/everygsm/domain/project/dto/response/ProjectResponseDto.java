@@ -28,6 +28,7 @@ public class ProjectResponseDto {
     private String creatorGithubUrl;
     private List<Category> category;
     private Integer heartCount;
+    private Integer visitorCount;
     private LocalDateTime createdAt;
 
     public static ProjectResponseDto from(Project project) {
@@ -39,12 +40,13 @@ public class ProjectResponseDto {
                 .projectUrl(project.getProjectUrl())
                 .projectLogoUri(project.getProjectLogoUri())
                 .projectGithubUrl(project.getProjectGithubUrl().stream().toList())
-                .creatorName(project.getProjectName())
-                .creatorDescription(project.getProjectDescription())
-                .creatorLogoUri(project.getProjectLogoUri())
-                .creatorGithubUrl(project.getProjectUrl())
+                .creatorName(project.getCreator().getCreatorName())
+                .creatorDescription(project.getCreator().getCreatorDescription())
+                .creatorLogoUri(project.getCreator().getCreatorLogoUri())
+                .creatorGithubUrl(project.getCreator().getCreatorGithubUrl())
                 .category(project.getCategory().stream().toList())
                 .heartCount(project.getHeartCount())
+                .visitorCount(project.getVisitorCount())
                 .createdAt(project.getCreatedAt())
                 .build();
     }

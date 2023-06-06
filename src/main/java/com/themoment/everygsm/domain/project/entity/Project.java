@@ -44,7 +44,8 @@ public class Project {
     @CollectionTable(name = "project_github_url", joinColumns = @JoinColumn(name = "project_id"))
     private List<String> projectGithubUrl;
 
-    @OneToOne(mappedBy = "project", cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "creator_id")
     private Creator creator;
 
     @Enumerated(EnumType.STRING)
@@ -55,6 +56,10 @@ public class Project {
     @ColumnDefault("0")
     @Column(name = "heart_count", nullable = false)
     private Integer heartCount;
+
+    @ColumnDefault("0")
+    @Column(name = "visitor_count", nullable = false)
+    private Integer visitorCount;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
@@ -85,4 +90,6 @@ public class Project {
     }
 
     public void updateStatus(Status status) { this.status = status; }
+  
+    public void updateVisitor(Integer visitorCount) { this.visitorCount = visitorCount; }
 }

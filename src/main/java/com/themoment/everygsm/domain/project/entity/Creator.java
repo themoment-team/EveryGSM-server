@@ -14,8 +14,7 @@ public class Creator {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long creatorId;
 
-    @OneToOne
-    @JoinColumn(name = "project_id")
+    @OneToOne(mappedBy = "creator")
     private Project project;
 
     @Column(name = "creator_name")
