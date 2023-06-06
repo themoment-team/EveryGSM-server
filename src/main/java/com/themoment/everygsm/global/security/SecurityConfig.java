@@ -58,6 +58,7 @@ public class SecurityConfig {
                 .requestMatchers("/project/{projectId}/bookmark").authenticated()
                 .requestMatchers("/project/{projectId}/approve").hasRole("ADMIN")
                 .requestMatchers("/project/{projectId}/disapprove").hasRole("ADMIN")
+                .requestMatchers("/project/waiting/approve").hasRole("ADMIN")
 
                 .anyRequest().authenticated();
 
