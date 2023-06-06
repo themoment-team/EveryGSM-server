@@ -39,6 +39,7 @@ public class ProjectService {
                 .projectGithubUrl(registerDto.getProjectGithubUrl())
                 .category(registerDto.getCategory())
                 .heartCount(0)
+                .visitorCount(0)
                 .user(user)
                 .createdAt(LocalDateTime.now())
                 .build();
@@ -106,5 +107,13 @@ public class ProjectService {
             return categoryProjects.stream()
                     .map(ProjectResponseDto::from)
                     .toList();
+    }
+
+    @Transactional
+    public void updateVisitorCount(Long projectId) {
+        Project project = projectRepository.findById(projectId)
+                .orElseThrow(() -> new CustomException("프로젝트를 찾지 못하였습니다.", HttpStatus.NOT_FOUND));
+
+        project.updateVisitor(project.getVisitorCount() + 1);
     }
 }

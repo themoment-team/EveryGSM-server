@@ -75,4 +75,10 @@ public class ProjectController {
         bookMarkService.deleteBookMark(projectId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @PostMapping("/{projectId}/visit")
+    public ResponseEntity<Void> updateVisitorCount(@PathVariable("projectId") Long projectId) {
+        projectService.updateVisitorCount(projectId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
