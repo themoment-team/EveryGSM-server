@@ -41,6 +41,8 @@ public class SecurityConfig {
                 .cors().disable();
 
         httpSecurity.authorizeHttpRequests()
+                .requestMatchers("/email/**").permitAll()
+
                 .requestMatchers("/user/projects").authenticated()
                 .requestMatchers("/user/bookmark/projects").authenticated()
                 .requestMatchers("/user/**").permitAll()
