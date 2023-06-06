@@ -43,7 +43,8 @@ public class Project {
     @CollectionTable(name = "project_github_url", joinColumns = @JoinColumn(name = "project_id"))
     private List<String> projectGithubUrl;
 
-    @OneToOne(mappedBy = "project", cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "creator_id")
     private Creator creator;
 
     @Enumerated(EnumType.STRING)
