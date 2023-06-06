@@ -85,6 +85,7 @@ public class ProjectController {
     @PostMapping("/{projectId}/disapprove")
     public ResponseEntity<Void> disapproveProject(@PathVariable("projectId") Long projectId) {
         projectService.disapproveProject(projectId);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
   
     @PostMapping("/{projectId}/visit")
