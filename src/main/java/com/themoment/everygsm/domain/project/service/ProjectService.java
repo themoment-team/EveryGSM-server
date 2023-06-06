@@ -110,6 +110,6 @@ public class ProjectService {
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(() -> new CustomException("프로젝트를 찾을 수 없습니다", HttpStatus.NOT_FOUND));
 
-        project.setStatus(Status.APPROVED);
+        project.updateStatus(Status.APPROVED);
     }
 }

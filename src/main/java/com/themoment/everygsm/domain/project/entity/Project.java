@@ -83,4 +83,6 @@ public class Project {
     public void updateHeart(Integer heartCount) {
         this.heartCount = heartCount;
     }
+
+    public void updateStatus(Status status) { this.status = status; }
 }
