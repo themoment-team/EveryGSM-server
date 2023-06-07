@@ -1,8 +1,9 @@
 package com.themoment.everygsm.domain.user.service;
 
-import com.themoment.everygsm.domain.bookMark.entity.BookMark;
 import com.themoment.everygsm.domain.bookMark.repository.BookMarkRepository;
 import com.themoment.everygsm.domain.heart.repository.HeartRepository;
+import com.themoment.everygsm.domain.email.entity.EmailAuth;
+import com.themoment.everygsm.domain.email.repository.EmailAuthRepository;
 import com.themoment.everygsm.domain.project.dto.response.ProjectResponseDto;
 import com.themoment.everygsm.domain.project.entity.Project;
 import com.themoment.everygsm.domain.project.repository.ProjectRepository;
@@ -28,8 +29,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.ZonedDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -45,12 +44,12 @@ public class UserService {
     private final ProjectRepository projectRepository;
     private final BookMarkRepository bookMarkRepository;
     private final HeartRepository heartRepository;
+    private final EmailAuthRepository emailAuthRepository;
 
     @Transactional(rollbackFor = Exception.class)
     public void signUp(SignUpRequestDto signUpRequestDto) {
-        if(userRepository.existsByUserEmail(signUpRequestDto.getUserEmail())) {
-            throw new CustomException("이미 사용하고 있는 이메일입니다.", HttpStatus.CONFLICT);
-        }
+
+        verifyEmail(signUpRequestDto.getUserEmail());
 
         User user = User.builder()
                 .userEmail(signUpRequestDto.getUserEmail())
@@ -60,6 +59,18 @@ public class UserService {
                 .userRole(Role.ROLE_USER)
                 .build();
         userRepository.save(user);
+    }
+
+    private void verifyEmail(String email) {
+        if(userRepository.existsByUserEmail(email))
+            throw new CustomException("이미 존재하는 이메일입니다.", HttpStatus.BAD_REQUEST);
+
+        EmailAuth emailAuth = emailAuthRepository.findById(email)
+                .orElseThrow(() -> new CustomException("인증되지 않은 이메일입니다.", HttpStatus.BAD_REQUEST));
+
+        if(!emailAuth.getAuthentication()){
+            throw new CustomException("인증되지 않은 이메일입니다.", HttpStatus.BAD_REQUEST);
+        }
     }
 
     @Transactional(rollbackFor = Exception.class)
