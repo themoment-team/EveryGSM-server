@@ -49,7 +49,6 @@ public class UserService {
     @Transactional(rollbackFor = Exception.class)
     public void signUp(SignUpRequestDto signUpRequestDto) {
 
-        try {
             verifyEmail(signUpRequestDto.getUserEmail());
 
             User user = User.builder()
@@ -59,6 +58,7 @@ public class UserService {
                     .userBelong(signUpRequestDto.getUserBelong())
                     .userRole(Role.ROLE_USER)
                     .build();
+        try {
             userRepository.save(user);
         } catch (ConstraintViolationException e) {
             throw new ValidationException("이메일 형식이 잘못되었습니다.");
