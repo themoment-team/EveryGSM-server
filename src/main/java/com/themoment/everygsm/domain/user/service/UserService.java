@@ -1,6 +1,5 @@
 package com.themoment.everygsm.domain.user.service;
 
-import com.themoment.everygsm.domain.bookMark.entity.BookMark;
 import com.themoment.everygsm.domain.bookMark.repository.BookMarkRepository;
 import com.themoment.everygsm.domain.email.entity.EmailAuth;
 import com.themoment.everygsm.domain.email.repository.EmailAuthRepository;
@@ -29,8 +28,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.ZonedDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor

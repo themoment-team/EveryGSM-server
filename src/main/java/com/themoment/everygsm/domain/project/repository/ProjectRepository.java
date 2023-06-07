@@ -1,7 +1,6 @@
 package com.themoment.everygsm.domain.project.repository;
 
 import com.themoment.everygsm.domain.project.entity.Project;
-import com.themoment.everygsm.domain.project.enums.Category;
 import com.themoment.everygsm.domain.project.enums.Status;
 import com.themoment.everygsm.domain.user.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;

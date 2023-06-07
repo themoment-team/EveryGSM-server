@@ -7,7 +7,6 @@ import com.themoment.everygsm.domain.project.dto.request.ProjectRegisterDto;
 import com.themoment.everygsm.domain.project.dto.response.ProjectResponseDto;
 import com.themoment.everygsm.domain.project.enums.Category;
 import com.themoment.everygsm.domain.project.service.ProjectService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -6,14 +6,12 @@ import com.themoment.everygsm.global.exception.CustomException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
 public class ProjectSearchUtil {
 
-    // 아래 메서드 수정해야함
     public List<Project> filterProjectsByKeywordAndCategories(List<Project> projects, String keyword, List<Category> categories) {
         return projects.stream()
                 .filter(project -> {
