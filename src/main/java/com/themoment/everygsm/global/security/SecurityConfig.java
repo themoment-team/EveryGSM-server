@@ -45,6 +45,7 @@ public class SecurityConfig {
 
                 .requestMatchers("/user/projects").authenticated()
                 .requestMatchers("/user/bookmark/projects").authenticated()
+                .requestMatchers("/user/heart/projects").authenticated()
                 .requestMatchers("/user/**").permitAll()
 
                 .requestMatchers("/project/all").permitAll()
