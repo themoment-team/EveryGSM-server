@@ -35,7 +35,6 @@ public class HeartService {
             }
         }
 
-            try {
                 Project project = projectRepository.findById(projectId)
                         .orElseThrow(() -> new CustomException("좋아요 누를 프로젝를 찾지 못했습니다.", HttpStatus.NOT_FOUND));
 
@@ -47,6 +46,7 @@ public class HeartService {
                         .project(project)
                         .build();
 
+            try {
                 project.updateHeart(project.getHeartCount() + 1);
                 heartRepository.save(heart);
             } finally {
@@ -69,8 +69,6 @@ public class HeartService {
             }
         }
 
-        try {
-
             Project project = projectRepository.findById(projectId)
                     .orElseThrow(() -> new CustomException("좋아요 누를 프로젝를 찾지 못했습니다.", HttpStatus.NOT_FOUND));
 
@@ -78,6 +76,7 @@ public class HeartService {
                 throw new CustomException("좋아요를 누르지 않은 프로젝트 입니다.", HttpStatus.BAD_REQUEST);
             }
 
+        try {
             project.updateHeart(project.getHeartCount() - 1);
             heartRepository.deleteHeartByUserAndProject(user, project);
         } finally {
