@@ -134,4 +134,13 @@ public class ProjectService {
 
         projectRepository.delete(project);
     }
+
+    @Transactional
+    public List<ProjectResponseDto> waitingForApprovalProjects() {
+        List<Project> projectList = projectRepository.findByStatus(Status.PENDING);
+
+        return projectList.stream()
+                .map(ProjectResponseDto::from)
+                .toList();
+    }
 }

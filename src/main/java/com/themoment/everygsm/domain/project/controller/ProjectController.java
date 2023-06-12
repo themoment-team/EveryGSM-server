@@ -92,4 +92,9 @@ public class ProjectController {
         projectService.updateVisitorCount(projectId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @GetMapping("/waiting/approve")
+    public ResponseEntity<List<ProjectResponseDto>> waitingForApprovalProjects() {
+        return new ResponseEntity<>(projectService.waitingForApprovalProjects(), HttpStatus.OK);
+    }
 }

@@ -1,6 +1,7 @@
 package com.themoment.everygsm.domain.user.service;
 
 import com.themoment.everygsm.domain.bookMark.repository.BookMarkRepository;
+import com.themoment.everygsm.domain.heart.repository.HeartRepository;
 import com.themoment.everygsm.domain.email.entity.EmailAuth;
 import com.themoment.everygsm.domain.email.repository.EmailAuthRepository;
 import com.themoment.everygsm.domain.project.dto.response.ProjectResponseDto;
@@ -42,6 +43,7 @@ public class UserService {
     private final BlackListRepository blackListRepository;
     private final ProjectRepository projectRepository;
     private final BookMarkRepository bookMarkRepository;
+    private final HeartRepository heartRepository;
     private final EmailAuthRepository emailAuthRepository;
 
     @Transactional(rollbackFor = Exception.class)
@@ -153,6 +155,15 @@ public class UserService {
 
         return bookMarkRepository.findAllByUser(user).stream()
                 .map((bookMark) -> ProjectResponseDto.from(bookMark.getProject()))
+                .toList();
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public List<ProjectResponseDto> getHeartProjects() {
+        User user = userUtil.currentUser();
+
+        return heartRepository.findByUser(user).stream()
+                .map((heart -> ProjectResponseDto.from(heart.getProject())))
                 .toList();
     }
 }

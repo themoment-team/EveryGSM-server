@@ -55,4 +55,10 @@ public class UserController {
         List<ProjectResponseDto> bookMarkProjects = userService.getBookMarkProjects();
         return new ResponseEntity<>(bookMarkProjects, HttpStatus.OK);
     }
+
+    @GetMapping("/heart/projects")
+    public ResponseEntity<List<ProjectResponseDto>> getHeartProjects() {
+        List<ProjectResponseDto> heartProjects = userService.getHeartProjects();
+        return new ResponseEntity<>(heartProjects, HttpStatus.OK);
+    }
 }

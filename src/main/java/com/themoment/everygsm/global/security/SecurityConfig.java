@@ -45,6 +45,7 @@ public class SecurityConfig {
 
                 .requestMatchers("/user/projects").authenticated()
                 .requestMatchers("/user/bookmark/projects").authenticated()
+                .requestMatchers("/user/heart/projects").authenticated()
                 .requestMatchers("/user/**").permitAll()
 
                 .requestMatchers("/project/all").permitAll()
@@ -59,6 +60,7 @@ public class SecurityConfig {
                 .requestMatchers("/project/{projectId}/bookmark").authenticated()
                 .requestMatchers("/project/{projectId}/approve").hasRole("ADMIN")
                 .requestMatchers("/project/{projectId}/disapprove").hasRole("ADMIN")
+                .requestMatchers("/project/waiting/approve").hasRole("ADMIN")
 
                 .anyRequest().authenticated();
 
