@@ -14,12 +14,6 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-
-    @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<ErrorResponse> handleConstraintViolationException(ConstraintViolationException ex) {
-        return ErrorResponse.toResponseEntity("이메일 형식이 잘못되었습니다", HttpStatus.BAD_REQUEST);
-    }
-
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ResponseEntity<ErrorResponse> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException ex) {
         return ErrorResponse.toResponseEntity("enum에 존재하지 않는 카테고리 입니다", HttpStatus.BAD_REQUEST);

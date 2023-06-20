@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -18,23 +19,13 @@ public class ProjectSortController {
 
     private final ProjectSortService projectSortService;
 
-    @GetMapping("/heart/asc")
-    public ResponseEntity<List<ProjectResponseDto>> getProjectsByHeartSortAsc() {
-        return new ResponseEntity<>(projectSortService.sortProjectsByHeartWithAsc(), HttpStatus.OK);
+    @GetMapping("/heart")
+    public ResponseEntity<List<ProjectResponseDto>> getSortedProjectsByHeart(@RequestParam String strategy) {
+        return new ResponseEntity<>(projectSortService.sortProjectsByHeart(strategy), HttpStatus.OK);
     }
 
-    @GetMapping("/heart/desc")
-    public ResponseEntity<List<ProjectResponseDto>> getProjectsByHeartSortDesc() {
-        return new ResponseEntity<>(projectSortService.sortProjectsByHeartWithDesc(), HttpStatus.OK);
-    }
-
-    @GetMapping("/created/asc")
-    public ResponseEntity<List<ProjectResponseDto>> getProjectsByCreatedAtSortAsc() {
-        return new ResponseEntity<>(projectSortService.sortProjectsByCreatedDateWithAsc(), HttpStatus.OK);
-    }
-
-    @GetMapping("/created/desc")
-    public ResponseEntity<List<ProjectResponseDto>> getProjectsByCreatedAtSortDesc() {
-        return new ResponseEntity<>(projectSortService.sortProjectsByCreatedDateWithDesc(), HttpStatus.OK);
+    @GetMapping("/created")
+    public ResponseEntity<List<ProjectResponseDto>> getSortedProjectsByCreated(@RequestParam String strategy) {
+        return new ResponseEntity<>(projectSortService.sortProjectsByCreated(strategy), HttpStatus.OK);
     }
 }

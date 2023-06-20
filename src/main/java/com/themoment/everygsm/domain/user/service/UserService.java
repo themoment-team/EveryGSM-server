@@ -20,12 +20,14 @@ import com.themoment.everygsm.domain.user.repository.UserRepository;
 import com.themoment.everygsm.global.exception.CustomException;
 import com.themoment.everygsm.global.security.jwt.JwtTokenProvider;
 import com.themoment.everygsm.global.util.UserUtil;
+import jakarta.validation.ValidationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import jakarta.validation.ConstraintViolationException;
 
 import java.time.ZonedDateTime;
 import java.util.List;
@@ -49,16 +51,20 @@ public class UserService {
     @Transactional(rollbackFor = Exception.class)
     public void signUp(SignUpRequestDto signUpRequestDto) {
 
-        verifyEmail(signUpRequestDto.getUserEmail());
+            verifyEmail(signUpRequestDto.getUserEmail());
 
-        User user = User.builder()
-                .userEmail(signUpRequestDto.getUserEmail())
-                .userPwd(passwordEncoder.encode(signUpRequestDto.getUserPwd()))
-                .userName(signUpRequestDto.getUserName())
-                .userBelong(signUpRequestDto.getUserBelong())
-                .userRole(Role.ROLE_USER)
-                .build();
-        userRepository.save(user);
+            User user = User.builder()
+                    .userEmail(signUpRequestDto.getUserEmail())
+                    .userPwd(passwordEncoder.encode(signUpRequestDto.getUserPwd()))
+                    .userName(signUpRequestDto.getUserName())
+                    .userBelong(signUpRequestDto.getUserBelong())
+                    .userRole(Role.ROLE_USER)
+                    .build();
+        try {
+            userRepository.save(user);
+        } catch (ConstraintViolationException e) {
+            throw new ValidationException("이메일 형식이 잘못되었습니다.");
+        }
     }
 
     private void verifyEmail(String email) {
