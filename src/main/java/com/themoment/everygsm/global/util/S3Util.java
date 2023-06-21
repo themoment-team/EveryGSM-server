@@ -24,6 +24,8 @@ public class S3Util {
 
     private final AmazonS3 amazonS3;
 
+    private final List<String> ALLOWED_EXTENSIONS = Arrays.asList(".jpg", ".png", ".jpeg", ".PNG", ".JPG", ".JPEG");
+
     public String upload(MultipartFile multipartFile) {
 
             String fileName = createFileName(multipartFile.getOriginalFilename());
@@ -54,21 +56,15 @@ public class S3Util {
     }
 
     private String getFileExtension(String fileName) {
-        if (fileName.length() == 0) {
-            throw new CustomException("잘못된 이미지 입력입니다.", HttpStatus.BAD_REQUEST);
+        try {
+            String extension = fileName.substring(fileName.lastIndexOf("."));
+            if (!ALLOWED_EXTENSIONS.contains(extension.toLowerCase())) {
+                throw new CustomException("파일 확장자 형식이 잘못되었습니다.", HttpStatus.BAD_REQUEST);
+            }
+            return extension;
+        } catch (StringIndexOutOfBoundsException e) {
+            throw new CustomException("파일 확장자가 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
         }
-        ArrayList<String> fileValidate = new ArrayList<>();
-        fileValidate.add(".jpg");
-        fileValidate.add(".jpeg");
-        fileValidate.add(".png");
-        fileValidate.add(".JPG");
-        fileValidate.add(".JPEG");
-        fileValidate.add(".PNG");
-        String idxFileName = fileName.substring(fileName.lastIndexOf("."));
-        if (!fileValidate.contains(idxFileName)) {
-            throw new CustomException("잘못된 이미지 입력입니다.", HttpStatus.BAD_REQUEST);
-        }
-        return fileName.substring(fileName.lastIndexOf("."));
     }
 
     public void deleteS3(String fileName){
