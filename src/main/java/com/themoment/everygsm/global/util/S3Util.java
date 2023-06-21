@@ -75,4 +75,8 @@ public class S3Util {
         amazonS3.deleteObject(new DeleteObjectRequest(bucket, fileName));
     }
 
+    public void deleteLogo(String projectLogo, String creatorLogo) {
+        deleteS3(projectLogo.substring(62));
+        deleteS3(creatorLogo.substring(62));
+    }
 }

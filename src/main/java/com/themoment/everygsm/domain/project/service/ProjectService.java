@@ -79,9 +79,8 @@ public class ProjectService {
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(() -> new CustomException("삭제할 프로젝트를 찾지 못하였습니다.", HttpStatus.NOT_FOUND));
 
+        s3Util.deleteLogo(project.getProjectLogoUri(), project.getCreator().getCreatorLogoUri());
         projectRepository.delete(project);
-        s3Util.deleteS3(project.getProjectLogoUri().substring(62));
-        s3Util.deleteS3(project.getCreator().getCreatorLogoUri().substring(62));
     }
 
     @Transactional
@@ -90,8 +89,7 @@ public class ProjectService {
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(() -> new CustomException("수정할 프로젝트를 찾지 못하였습니다.", HttpStatus.NOT_FOUND));
 
-        s3Util.deleteS3(project.getProjectLogoUri().substring(62));
-        s3Util.deleteS3(project.getCreator().getCreatorLogoUri().substring(62));
+        s3Util.deleteLogo(project.getProjectLogoUri(), project.getCreator().getCreatorLogoUri());
 
         project.update(
                 requestDto.getProjectName(),
