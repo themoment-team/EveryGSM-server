@@ -11,13 +11,16 @@ import com.themoment.everygsm.domain.project.repository.ProjectRepository;
 import com.themoment.everygsm.domain.user.entity.User;
 import com.themoment.everygsm.global.exception.CustomException;
 import com.themoment.everygsm.global.util.ProjectSearchUtil;
+import com.themoment.everygsm.global.util.S3Util;
 import com.themoment.everygsm.global.util.UserUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -27,16 +30,17 @@ public class ProjectService {
     private final ProjectRepository projectRepository;
     private final UserUtil userUtil;
     private final ProjectSearchUtil projectSearchUtil;
+    private final S3Util s3Util;
 
     @Transactional(rollbackFor = Exception.class)
-    public void registerProject(ProjectRegisterDto registerDto) {
+    public void registerProject(ProjectRegisterDto registerDto, MultipartFile projectLogo, MultipartFile creatorLogo) {
         User user = userUtil.currentUser();
 
         Project project = Project.builder()
                 .projectName(registerDto.getProjectName())
                 .projectDescription(registerDto.getProjectDescription())
                 .projectUrl(registerDto.getProjectUrl())
-                .projectLogoUri(registerDto.getProjectLogoUri())
+                .projectLogoUri(s3Util.upload(projectLogo))
                 .projectGithubUrl(registerDto.getProjectGithubUrl())
                 .category(registerDto.getCategory())
                 .status(Status.PENDING)
@@ -49,7 +53,7 @@ public class ProjectService {
         Creator creator = Creator.builder()
                 .creatorName(registerDto.getCreatorName())
                 .creatorDescription(registerDto.getCreatorDescription())
-                .creatorLogoUri(registerDto.getCreatorLogoUri())
+                .creatorLogoUri(s3Util.upload(creatorLogo))
                 .creatorGithubUrl(registerDto.getCreatorGithubUrl())
                 .project(project)
                 .build();
@@ -76,24 +80,29 @@ public class ProjectService {
                 .orElseThrow(() -> new CustomException("삭제할 프로젝트를 찾지 못하였습니다.", HttpStatus.NOT_FOUND));
 
         projectRepository.delete(project);
+        s3Util.deleteS3(project.getProjectLogoUri().substring(62));
+        s3Util.deleteS3(project.getCreator().getCreatorLogoUri().substring(62));
     }
 
     @Transactional
-    public void modifyProject(Long projectId, ProjectModifyDto requestDto) {
+    public void modifyProject(Long projectId, ProjectModifyDto requestDto, MultipartFile projectLogo, MultipartFile creatorLogo) {
 
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(() -> new CustomException("수정할 프로젝트를 찾지 못하였습니다.", HttpStatus.NOT_FOUND));
+
+        s3Util.deleteS3(project.getProjectLogoUri().substring(62));
+        s3Util.deleteS3(project.getCreator().getCreatorLogoUri().substring(62));
 
         project.update(
                 requestDto.getProjectName(),
                 requestDto.getProjectDescription(),
                 requestDto.getProjectUrl(),
-                requestDto.getProjectLogoUri(),
+                s3Util.upload(projectLogo),
                 requestDto.getProjectGithubUrl(),
                 requestDto.getCategory(),
                 requestDto.getCreatorName(),
                 requestDto.getCreatorDescription(),
-                requestDto.getCreatorLogoUri(),
+                s3Util.upload(creatorLogo),
                 requestDto.getCreatorGithubUrl()
         );
 
