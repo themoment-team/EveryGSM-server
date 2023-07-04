@@ -24,7 +24,7 @@ public class S3Util {
 
     private final AmazonS3 amazonS3;
 
-    private final List<String> ALLOWED_EXTENSIONS = Arrays.asList(".jpg", ".png", ".jpeg", ".PNG", ".JPG", ".JPEG");
+    private final List<String> ALLOWED_EXTENSIONS = Arrays.asList(".jpg", ".png", ".jpeg");
 
     public String upload(MultipartFile multipartFile) {
 
