@@ -64,7 +64,7 @@ public class ProjectService {
     }
 
     @Transactional
-    public List<ProjectResponseDto> getAllProjects() {
+    public List<ProjectResponseDto> getAllApprovedProjects() {
 
         List<Project> projectList = projectRepository.findByStatus(Status.APPROVED);
 

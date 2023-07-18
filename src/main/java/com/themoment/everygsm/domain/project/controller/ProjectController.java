@@ -30,9 +30,9 @@ public class ProjectController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @GetMapping("/all")
+    @GetMapping("/approved")
     public ResponseEntity<List<ProjectResponseDto>> getAllProjects() {
-        return new ResponseEntity<>(projectService.getAllProjects(), HttpStatus.OK);
+        return new ResponseEntity<>(projectService.getAllApprovedProjects(), HttpStatus.OK);
     }
 
     @DeleteMapping("/{projectId}")
