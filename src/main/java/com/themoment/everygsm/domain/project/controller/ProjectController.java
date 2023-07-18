@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -24,14 +25,14 @@ public class ProjectController {
     private final BookMarkService bookMarkService;
 
     @PostMapping("/register")
-    public ResponseEntity<Void> register(@RequestBody ProjectRegisterDto registerDto) {
-        projectService.registerProject(registerDto);
+    public ResponseEntity<Void> register(@RequestPart("content") ProjectRegisterDto registerDto, @RequestPart(value = "projectLogo")MultipartFile projectLogo, @RequestPart(value = "creatorLogo")MultipartFile creatorLogo) {
+        projectService.registerProject(registerDto, projectLogo,creatorLogo);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @GetMapping("/all")
+    @GetMapping("/approved")
     public ResponseEntity<List<ProjectResponseDto>> getAllProjects() {
-        return new ResponseEntity<>(projectService.getAllProjects(), HttpStatus.OK);
+        return new ResponseEntity<>(projectService.getAllApprovedProjects(), HttpStatus.OK);
     }
 
     @DeleteMapping("/{projectId}")
@@ -41,8 +42,8 @@ public class ProjectController {
     }
 
     @PatchMapping("/{projectId}")
-    public ResponseEntity<Void> modifyProject(@PathVariable Long projectId, @RequestBody ProjectModifyDto requestDto) {
-        projectService.modifyProject(projectId, requestDto);
+    public ResponseEntity<Void> modifyProject(@PathVariable Long projectId, @RequestPart("content") ProjectModifyDto requestDto, @RequestPart(value = "projectLogo")MultipartFile projectLogo, @RequestPart(value = "creatorLogo")MultipartFile creatorLogo) {
+        projectService.modifyProject(projectId, requestDto, projectLogo, creatorLogo);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
